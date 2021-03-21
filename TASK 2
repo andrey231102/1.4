@@ -1,0 +1,47 @@
+using System;
+
+namespace дз
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int maxHealth = 10;
+            int maxMana = 10;
+            string command = "";
+            while (command!="exit")
+            {  
+                Console.Write("Введите нужное количество хп в процентах: ");
+                int health = Convert.ToInt32(Console.ReadLine()) * maxHealth / 100;   
+                
+                DrawBar(health, maxHealth, 100,0, '#');
+                
+                Console.Write("Введите нужное количество маны в процентах: ");
+                int mana = Convert.ToInt32(Console.ReadLine()) * maxHealth / 100;
+                
+                DrawBar(mana, maxMana, 100,1, '*');
+
+                Console.WriteLine("Для продолжения нажмите любую кнопку, чтобы выйти - exit ");
+                command = Console.ReadLine();
+                Console.Clear();
+            }
+        }
+        static void DrawBar(int value, int maxValue, int positionX, int positionY, char symbol)
+        {
+            string bar = "";
+            for (int i = 0; i < value; i++)
+            {
+                bar += symbol;
+            }
+            Console.SetCursorPosition(positionX, positionY);
+            Console.Write('[');
+            Console.Write(bar);
+            bar = "";
+            for (int i = value; i < maxValue; i++)
+            {
+                bar += '_';
+            }
+            Console.WriteLine(bar + ']');
+        }
+    }
+}
