@@ -7,10 +7,10 @@ namespace дз
         static void Main(string[] args)
         {           
             int number;
-            myMethod(out number);
+            findOutIfTheInputIsANumber(out number);
         }
 
-        static void myMethod(out int number)
+        static void findOutIfTheInputIsANumber(out int number)
         {
             while (true)
             {
@@ -23,7 +23,7 @@ namespace дз
                 }
                 else
                 {
-                    Console.WriteLine("Это точно не число");
+                    Console.WriteLine("Это точно не число, попробуйте еще");
                 }
             }
         }
