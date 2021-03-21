@@ -1,0 +1,31 @@
+using System;
+
+namespace дз
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {           
+            int number;
+            myMethod(out number);
+        }
+
+        static void myMethod(out int number)
+        {
+            while (true)
+            {
+                string userInput = Console.ReadLine();
+                bool isNumber = int.TryParse(userInput, out number);
+                if (isNumber)
+                {
+                    Console.WriteLine($"Вы ввели число {number}");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Это точно не число");
+                }
+            }
+        }
+    }
+}
