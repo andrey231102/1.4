@@ -17,106 +17,114 @@ namespace дз
                 switch (command)
                 {
                     case "1":
-                        Console.WriteLine("Введите фамилию нового пользователя");
-                        string user = Console.ReadLine();
-                        Console.WriteLine("Введите кто он по профессии");
-                        string job = Console.ReadLine();
-                        addProfile(ref users, user, ref jobs, job);
-                        Console.WriteLine("пользователь добавлен");
-                        sendMessage();
+                        AddProfile(ref users, ref jobs);
                         break;
                     case "2":
-                        displayAllProfiles(users, jobs);
-                        sendMessage();
+                        DisplayAllProfiles(users, jobs);
                         break;
                     case "3":
-                        Console.WriteLine("Введите номер пользователя чтобы его удалить");
-                        int index = Convert.ToInt32(Console.ReadLine())-1;
-                        RemoveUser(ref users, index, ref jobs);
-                        Console.WriteLine("Пользователь успешно удален");
-                        sendMessage();
+                        RemoveUser(ref users, ref jobs);
                         break;
                     case "4":
-                        findByLastName(users, jobs);
-                        sendMessage();
+                        FindByLastName(users, jobs);
                         break;
                     case "5":
                         Console.WriteLine("Вы покинули программу");
                         break;
                     default:
-                        Console.WriteLine("Такой команды не существует");
-                        sendMessage();
+                        Console.WriteLine("Такой команды не существует");    
                         break;
                 }
+                sendMessage();
+            } 
+            while (command != "5");
+        }
+        static void sendMessage()
+        {
+            Console.WriteLine("введите номер команды");
+        }
 
-            } while (command != "5");
+        static void AddProfile(ref string[] users, ref string[] jobs)
+        {
+            Console.WriteLine("Введите фамилию нового пользователя");
+            string user = Console.ReadLine();
+            Console.WriteLine("Введите кто он по профессии");
+            string job = Console.ReadLine();
+            ExpandArray(ref users, user);
+            ExpandArray(ref jobs, job);
+            Console.WriteLine("пользователь добавлен");
+        }
 
-            static void sendMessage()
+        static void DisplayAllProfiles(string[] users, string[] jobs)
+        {
+            for (int i = 0; i < users.Length; i++)
             {
-                Console.WriteLine("введите номер команды");
-            }
-
-            static void addProfile(ref string[] users, string user, ref string[] jobs, string job)
-            {
-                string[] tempUsers = new string[users.Length + 1];
-                string[] tempJobs = new string[jobs.Length + 1];
-                for (int i = 0; i < users.Length && i < jobs.Length; i++)
+                for (int j = i; j == i;j++)
                 {
-                    tempUsers[i] = users[i];
-                    tempJobs[i] = jobs[i];
+                    Console.WriteLine($"{i + 1}. {users[i]} --- {jobs[j]}");
                 }
-                tempUsers[tempUsers.Length - 1] = user;
-                users = tempUsers;
-                tempJobs[tempJobs.Length - 1] = job;
-                jobs = tempJobs;   
             }
+        }
 
-            static void displayAllProfiles(string[] users, string[] jobs)
+        static void FindByLastName(string[] users, string[] jobs)
+        {
+            Console.WriteLine("Введите фамилию нужного человека");
+            string person = Console.ReadLine();
+            for (int i = 0; i < users.Length; i++)
             {
-                for (int i = 0; i < users.Length; i++)
+                for (int j = 0; j < jobs.Length; j++)
                 {
-                    for (int j = i; j < jobs.Length;)
+                    if (person == users[i] && i == j)
                     {
-                        Console.WriteLine($"{i+1}. {users[i]} --- {jobs[j]}");
-                        break;
+                        Console.WriteLine($"Этот пользователь - {jobs[j]} ");
                     }
                 }
             }
+        }
 
-            static void findByLastName(string[] users, string[] jobs)
+        static void RemoveUser(ref string[] users, ref string[] jobs)
+        {
+            Console.WriteLine("Введите номер пользователя чтобы его удалить");
+            int index = Convert.ToInt32(Console.ReadLine()) - 1;
+            if (index < 0)
             {
-                Console.WriteLine("Введите фамилию нужного человека");
-                string person = Console.ReadLine();
-                for (int i = 0; i < users.Length; i++)
-                {
-                    for (int j = 0; j < jobs.Length; j++)
-                    {
-                        if (person == users[i] && i == j)
-                        {
-                            Console.WriteLine($"Этот пользователь - {jobs[j]} ");
-                        }
-                    }
-                }
+                Console.WriteLine("Ошибка при вводе индекса");
             }
+            else if(index >= users.Length || users.Length == 0)
+            {
+                Console.WriteLine("Вы не сможете удалить пользователя, вы должны сначала его добавить");
+            }
+            else
+            {
+                RemoveElement(ref users, index);
+                RemoveElement(ref jobs, index);
+                Console.WriteLine("Пользователь успешно удален");
+            }
+        }
 
-            static void RemoveUser(ref string[] users, int index, ref string[] jobs)
+        static void ExpandArray(ref string[] array, string value)
+        {
+            string[] tempArray = new string[array.Length + 1];
+            for (int i = 0; i < array.Length; i++)
             {
-                string[] tempUsers = new string[users.Length - 1];
-                string[] tempJobs = new string[jobs.Length - 1];
-                for (int i = 0; i < index; i++)
-                {
-                    tempUsers[i] = users[i];
-                    tempJobs[i] = jobs[i];
-                }
-                for (int i = index + 1; i < users.Length && i < jobs.Length; i++)
-                {
-                    tempUsers[i - 1] = users[i];
-                    tempJobs[i - 1] = jobs[i];
-                }
-                users = tempUsers;
-                jobs = tempJobs;
+                tempArray[i] = array[i];
             }
+            tempArray[tempArray.Length - 1] = value;
+            array = tempArray;
+        }
+
+        static void RemoveElement(ref string[] array, int index)
+        {
+            string[] tempArray = new string[array.Length-1];
+            for (int i = 0; i < index; i++)
+            {
+                tempArray[i] = array[i];
+            }
+            for (int i = index + 1; i < array.Length; i++)
+            {
+                tempArray[i - 1] = array[i];
+            }
+            array = tempArray;
         }
     }
 }
-
