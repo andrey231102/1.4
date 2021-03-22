@@ -5,27 +5,30 @@ namespace дз
     class Program
     {
         static void Main(string[] args)
-        {           
-            int number;
-            findOutIfTheInputIsANumber(out number);
+        {
+            int number = 0;
+            bool isWorking = true;
+            number= GetNumber(number, isWorking);
         }
 
-        static void findOutIfTheInputIsANumber(out int number)
+        static int GetNumber(int number, bool isWorking)
         {
-            while (true)
+  
+            while (isWorking)
             {
                 string userInput = Console.ReadLine();
                 bool isNumber = int.TryParse(userInput, out number);
                 if (isNumber)
                 {
                     Console.WriteLine($"Вы ввели число {number}");
-                    break;
+                    isWorking = false;
                 }
                 else
                 {
                     Console.WriteLine("Это точно не число, попробуйте еще");
                 }
             }
+            return number;
         }
     }
 }
