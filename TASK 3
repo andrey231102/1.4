@@ -6,14 +6,14 @@ namespace дз
     {
         static void Main(string[] args)
         {
-            int number = 0;
-            bool isWorking = true;
-            number= GetNumber(number, isWorking);
+          int number = GetNumber();
         }
 
-        static int GetNumber(int number, bool isWorking)
+        static int GetNumber()
         {
-  
+            int number = 0;
+            bool isWorking = true;
+
             while (isWorking)
             {
                 string userInput = Console.ReadLine();
