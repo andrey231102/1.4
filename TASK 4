@@ -1,0 +1,132 @@
+using System;
+using System.IO;
+namespace дз
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.CursorVisible = false;
+            bool isPlaying = true;
+
+            int heroX, heroY;
+            int heroDX = 0, heroDY = 1;
+
+            bool isAlive = true;
+            int allDots = 0;
+            int collectDots = 0;
+
+            char[,] map = ReadMap("map1", out heroX, out heroY, ref allDots);
+            DrawMap(map);
+            while (isPlaying)
+            {
+                Console.SetCursorPosition(0, 20);
+                Console.WriteLine($"Cобрано {collectDots}/{allDots} ягод");
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+
+                    ChangeDirection(key, ref heroDX, ref heroDY);
+                }
+                if (map[heroX + heroDX, heroY + heroDY] != '#')
+                {
+                    CollectDots(map, heroX, heroY, ref collectDots);
+                    Move(map, '@', ref heroX, ref heroY, heroDX, heroDY);
+                }
+               
+                System.Threading.Thread.Sleep(200);
+
+                if (collectDots == allDots || !isAlive)
+                {
+                    isPlaying = false;
+                }
+            }
+
+            Console.SetCursorPosition(0, 21);
+
+            if (collectDots == allDots)
+            {
+                Console.WriteLine("Вы победили!");
+            }
+            
+        }
+        static void Move(char[,] map, char symbol, ref int X, ref int Y, int DX, int DY)
+        {
+            Console.SetCursorPosition(Y, X);
+            Console.Write(map[X, Y]);
+
+            X += DX;
+            Y += DY;
+
+            Console.SetCursorPosition(Y, X);
+            Console.Write(symbol);
+        }
+        static void CollectDots(char[,] map, int heroX, int heroY, ref int collectDots)
+        {
+            if (map[heroX, heroY] == '.')
+            {
+                collectDots++;
+                map[heroX, heroY] = ' ';
+            }
+        }
+        static void ChangeDirection(ConsoleKeyInfo key, ref int DX, ref int DY)
+        {
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    DX = -1; DY = 0;
+                    break;
+                case ConsoleKey.DownArrow:
+                    DX = 1; DY = 0;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    DX = 0; DY = -1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    DX = 0; DY = 1;
+                    break;
+            }
+        }
+        static void DrawMap(char[,] map)
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    Console.Write(map[i, j]);
+                }
+                Console.WriteLine();
+            }
+        }
+        static char[,] ReadMap(string mapName, out int heroX, out int heroY,ref int allDots)
+        {
+            heroX = 0;
+            heroY = 0;
+            
+            string[] newFile = File.ReadAllLines($"Maps/{mapName}.txt");
+            char[,] map = new char[newFile.Length, newFile[0].Length];
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    map[i, j] = newFile[i][j];
+                    if (map[i, j] == '@')
+                    {
+                        heroX = i;
+                        heroY = j;
+                        map[i, j] = '.';
+                    }
+                    else if (map[i, j] == ' ')
+                    {
+                        map[i, j] = '.';
+                        allDots++;
+                    }
+
+                }
+            }
+            return map;
+        }
+
+    }
+}
