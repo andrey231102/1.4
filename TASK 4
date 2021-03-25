@@ -12,7 +12,6 @@ namespace дз
             int heroX, heroY;
             int heroDX = 0, heroDY = 1;
 
-            bool isAlive = true;
             int allDots = 0;
             int collectDots = 0;
 
@@ -36,7 +35,7 @@ namespace дз
                
                 System.Threading.Thread.Sleep(200);
 
-                if (collectDots == allDots || !isAlive)
+                if (collectDots == allDots)
                 {
                     isPlaying = false;
                 }
