@@ -5,23 +5,22 @@ namespace дз
     {
         static void Main(string[] args)
         {
-            Random rand = new Random();
-
             Console.WriteLine("Введите количество элементов массива");
             int userInput = Convert.ToInt32(Console.ReadLine());
 
             Console.Write("Изначальный массив: ");
             int[] numbers = new int[userInput];
-            FillArray(numbers, rand);
+            FillArray(numbers);
             DisplayArray(numbers);
-            
+
             Console.Write("\n\n\nМассив после перемешивания:");
-            Shuffle(ref numbers, rand);
+            Shuffle(ref numbers);
             DisplayArray(numbers);
         }
 
-        static void FillArray(int[] array, Random rand)
+        static void FillArray(int[] array)
         {
+            Random rand = new Random();
             for (int i = 0; i < array.Length; i++)
             {
                 int elementValue = rand.Next(0, 101);
@@ -29,8 +28,9 @@ namespace дз
             }
         }
 
-        static void Shuffle(ref int[] array, Random rand)
+        static void Shuffle(ref int[] array)
         {
+            Random rand = new Random();
             for (int i = array.Length - 1; i >= 1; i--)
             {
                 int tempIndex = rand.Next(i + 1);
@@ -39,7 +39,6 @@ namespace дз
                 array[i] = value;
             }
         }
-
         static void DisplayArray(int[] array)
         {
             for (int i = 0; i < array.Length; i++)
