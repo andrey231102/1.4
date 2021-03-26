@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 namespace дз
 {
     class Program
@@ -13,20 +12,21 @@ namespace дз
 
             Console.Write("Изначальный массив: ");
             int[] numbers = new int[userInput];
-            CreateArray(numbers, rand);
+            FillArray(numbers, rand);
+            DisplayArray(numbers);
             
             Console.Write("\n\n\nМассив после перемешивания:");
             Shuffle(ref numbers, rand);
+            DisplayArray(numbers);
         }
 
-        static void CreateArray(int[] array, Random rand)
+        static void FillArray(int[] array, Random rand)
         {
             for (int i = 0; i < array.Length; i++)
             {
                 int elementValue = rand.Next(0, 101);
                 array[i] = elementValue;
             }
-            DisplayArray(array);
         }
 
         static void Shuffle(ref int[] array, Random rand)
@@ -38,9 +38,8 @@ namespace дз
                 array[tempIndex] = array[i];
                 array[i] = value;
             }
-            DisplayArray(array);
         }
-        
+
         static void DisplayArray(int[] array)
         {
             for (int i = 0; i < array.Length; i++)
