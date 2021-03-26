@@ -10,7 +10,7 @@ namespace дз
             bool isPlaying = true;
 
             int heroX, heroY;
-            int heroDX = 0, heroDY = 1;
+            int heroDirectionX = 0, heroDirectionY = 1;
 
             int allDots = 0;
             int collectDots = 0;
@@ -25,14 +25,14 @@ namespace дз
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
 
-                    ChangeDirection(key, ref heroDX, ref heroDY);
+                    ChangeDirection(key, ref heroDirectionX, ref heroDirectionY);
                 }
-                if (map[heroX + heroDX, heroY + heroDY] != '#')
+                if (map[heroX + heroDirectionX, heroY + heroDirectionY] != '#')
                 {
                     CollectDots(map, heroX, heroY, ref collectDots);
-                    Move(map, '@', ref heroX, ref heroY, heroDX, heroDY);
+                    Move(map, '@', ref heroX, ref heroY, heroDirectionX, heroDirectionY);
                 }
-               
+
                 System.Threading.Thread.Sleep(200);
 
                 if (collectDots == allDots)
@@ -47,19 +47,21 @@ namespace дз
             {
                 Console.WriteLine("Вы победили!");
             }
-            
+
         }
-        static void Move(char[,] map, char symbol, ref int X, ref int Y, int DX, int DY)
+
+        static void Move(char[,] map, char symbol, ref int x, ref int y, int directionX, int directionY)
         {
-            Console.SetCursorPosition(Y, X);
-            Console.Write(map[X, Y]);
+            Console.SetCursorPosition(y, x);
+            Console.Write(map[x, y]);
 
-            X += DX;
-            Y += DY;
+            x += directionX;
+            y += directionY;
 
-            Console.SetCursorPosition(Y, X);
+            Console.SetCursorPosition(y, x);
             Console.Write(symbol);
         }
+
         static void CollectDots(char[,] map, int heroX, int heroY, ref int collectDots)
         {
             if (map[heroX, heroY] == '.')
@@ -68,24 +70,26 @@ namespace дз
                 map[heroX, heroY] = ' ';
             }
         }
-        static void ChangeDirection(ConsoleKeyInfo key, ref int DX, ref int DY)
+
+        static void ChangeDirection(ConsoleKeyInfo key, ref int directionX, ref int directionY)
         {
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow:
-                    DX = -1; DY = 0;
+                    directionX = -1; directionY = 0;
                     break;
                 case ConsoleKey.DownArrow:
-                    DX = 1; DY = 0;
+                    directionX = 1; directionY = 0;
                     break;
                 case ConsoleKey.LeftArrow:
-                    DX = 0; DY = -1;
+                    directionX = 0; directionY = -1;
                     break;
                 case ConsoleKey.RightArrow:
-                    DX = 0; DY = 1;
+                    directionX = 0; directionY = 1;
                     break;
             }
         }
+
         static void DrawMap(char[,] map)
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -97,11 +101,12 @@ namespace дз
                 Console.WriteLine();
             }
         }
-        static char[,] ReadMap(string mapName, out int heroX, out int heroY,ref int allDots)
+
+        static char[,] ReadMap(string mapName, out int heroX, out int heroY, ref int allDots)
         {
             heroX = 0;
             heroY = 0;
-            
+
             string[] newFile = File.ReadAllLines($"Maps/{mapName}.txt");
             char[,] map = new char[newFile.Length, newFile[0].Length];
 
@@ -114,14 +119,13 @@ namespace дз
                     {
                         heroX = i;
                         heroY = j;
-                        map[i, j] = '.';
+                        map[i, j] = ' ';
                     }
                     else if (map[i, j] == ' ')
                     {
                         map[i, j] = '.';
                         allDots++;
                     }
-
                 }
             }
             return map;
