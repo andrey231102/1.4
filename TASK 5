@@ -8,13 +8,13 @@ namespace дз
             Console.WriteLine("Введите количество элементов массива");
             int userInput = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Изначальный массив: ");
             int[] numbers = new int[userInput];
             FillArray(numbers);
-            DisplayArray(numbers);
+            Console.Write("\n\nИзначальный массив: ");
+            DisplayArray(numbers); 
 
+            Shuffle(numbers);
             Console.Write("\n\n\nМассив после перемешивания:");
-            Shuffle(ref numbers);
             DisplayArray(numbers);
         }
 
@@ -23,12 +23,11 @@ namespace дз
             Random rand = new Random();
             for (int i = 0; i < array.Length; i++)
             {
-                int elementValue = rand.Next(0, 101);
-                array[i] = elementValue;
+                array[i] = rand.Next(0, 101);
             }
         }
 
-        static void Shuffle(ref int[] array)
+        static void Shuffle(int[] array)
         {
             Random rand = new Random();
             for (int i = array.Length - 1; i >= 1; i--)
